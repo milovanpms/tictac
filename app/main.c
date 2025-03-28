@@ -17,7 +17,7 @@
 
 #include <stdio.h>
 
-#define BLINK_DELAY	100 // millisecondes
+#define BLINK_DELAY	1000 // millisecondes
 
 
 void write_LED(bool b)
