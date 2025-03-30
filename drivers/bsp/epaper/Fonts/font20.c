@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32g4_epaper_font20.c
+  * @file    font20.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    18-February-2014
@@ -34,10 +34,9 @@
   *
   ******************************************************************************
   */
-#include "config.h"
-#if USE_EPAPER
+
 /* Includes ------------------------------------------------------------------*/
-#include "stm32g4_epaper_fonts.h"
+#include "fonts.h"
 
 // Character bitmaps for Courier New 15pt
 const uint8_t Font20_Table[] = 
@@ -2140,5 +2139,4 @@ sFONT Font20 = {
   20, /* Height */
 };
 
-#endif
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32g4_epaper_font24.c
+  * @file    font24.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    18-February-2014
@@ -34,10 +34,9 @@
   *
   ******************************************************************************
   */
-#include "config.h"
-#if USE_EPAPER
+
 /* Includes ------------------------------------------------------------------*/
-#include "stm32g4_epaper_fonts.h"
+#include "fonts.h"
 
 const uint8_t Font24_Table [] = 
 {
@@ -2518,5 +2517,4 @@ sFONT Font24 = {
   24, /* Height */
 };
 
-#endif
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

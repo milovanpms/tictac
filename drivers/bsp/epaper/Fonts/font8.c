@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32g4_epaper_font8.c
+  * @file    Font8.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    18-February-2014
@@ -34,10 +34,9 @@
   *
   ******************************************************************************
   */
-#include "config.h"
-#if USE_EPAPER
+
 /* Includes ------------------------------------------------------------------*/
-#include "stm32g4_epaper_fonts.h"
+#include "fonts.h"
 
 // 
 //  Font data for Courier New 12pt
@@ -1002,5 +1001,4 @@ sFONT Font8 = {
   8, /* Height */
 };
 
-#endif
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

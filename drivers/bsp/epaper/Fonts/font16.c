@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32g4_epaper_font16.c
+  * @file    font16.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    18-February-2014
@@ -36,9 +36,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "config.h"
-#if USE_EPAPER
-#include "stm32g4_epaper_fonts.h"
+#include "fonts.h"
 
 // 
 //  Font data for Courier New 12pt
@@ -1763,5 +1761,4 @@ sFONT Font16 = {
   16, /* Height */
 };
 
-#endif
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
