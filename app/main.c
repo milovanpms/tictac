@@ -7,6 +7,8 @@
  *******************************************************************************
  */
 
+// https://www.waveshare.com/wiki/1.54inch_e-Paper_Module_(B)_Manual#Working_With_STM32
+
 #include <epaper/stm32g4_epaper_config.h>
 #include "config.h"
 #include "stm32g4_sys.h"
