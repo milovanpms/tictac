@@ -16,11 +16,15 @@
 #include "stm32g4_gpio.h"
 #include "stm32g4_uart.h"
 #include "stm32g4_utils.h"
+#include "stm32g4_adc.h"
 
 #include <stdio.h>
 
 // Epaper header
 #include "./epaper/epaper.h"
+
+// Heartbeat header
+#include "./heartbeat/heartbeat.h"
 
 
 void write_LED(bool b)
@@ -47,6 +51,7 @@ int main(void)
     BSP_GPIO_enable();
     BSP_UART_init(UART2_ID, 115200);
     BSP_SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
+    BSP_ADC_init();
 
     // Initialise la LED verte
     BSP_GPIO_pin_config(LED_GREEN_GPIO, LED_GREEN_PIN, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_HIGH, GPIO_NO_AF);
@@ -60,9 +65,11 @@ int main(void)
 
     while (1)
     {
-        write_LED(true);
-        HAL_Delay(1000);
-        write_LED(false);
-        HAL_Delay(1000);
+        //write_LED(true);
+        //HAL_Delay(1000);
+        //write_LED(false);
+        //HAL_Delay(1000);
+    	printf("%u\n", heartbeat());
+    	HAL_Delay(100);
     }
 }
