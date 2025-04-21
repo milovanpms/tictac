@@ -57,11 +57,12 @@ int main(void)
     BSP_GPIO_pin_config(LED_GREEN_GPIO, LED_GREEN_PIN, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_HIGH, GPIO_NO_AF);
 
     // Initialise le SPI
-    //SPI_Init();
+    SPI_Init();
     // Initialise le module e-paper
-    //DEV_Module_Init();
+    DEV_Module_Init();
     // Lance la démo du module e-paper
     //EPD_Demo();
+    EPD_Demo_Text();
 
     while (1)
     {
@@ -69,7 +70,7 @@ int main(void)
         //HAL_Delay(1000);
         //write_LED(false);
         //HAL_Delay(1000);
-    	printf("%u\n", heartbeat());
-    	HAL_Delay(100);
+    	//printf("%u\n", heartbeat());
+    	//HAL_Delay(100);
     }
 }

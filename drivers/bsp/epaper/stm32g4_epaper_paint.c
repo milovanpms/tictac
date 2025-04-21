@@ -160,10 +160,10 @@ void Paint_SetMirroring(UBYTE mirror)
 {
     if(mirror == MIRROR_NONE || mirror == MIRROR_HORIZONTAL || 
         mirror == MIRROR_VERTICAL || mirror == MIRROR_ORIGIN) {
-        Debug("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
+        //Debug("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
         Paint.Mirror = mirror;
     } else {
-        Debug("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
+        //Debug("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
         MIRROR_VERTICAL or MIRROR_ORIGIN\r\n");
     }    
 }
@@ -178,7 +178,7 @@ parameter:
 void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
 {
     if(Xpoint > Paint.Width || Ypoint > Paint.Height){
-        Debug("Exceeding display boundaries\r\n");
+        //Debug("Exceeding display boundaries\r\n");
         return;
     }      
     UWORD X, Y;
@@ -222,7 +222,7 @@ void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
     }
 
     if(X > Paint.WidthMemory || Y > Paint.HeightMemory){
-        Debug("Exceeding display boundaries\r\n");
+        //Debug("Exceeding display boundaries\r\n");
         return;
     }
     
@@ -312,7 +312,7 @@ void Paint_DrawPoint(UWORD Xpoint, UWORD Ypoint, UWORD Color,
                      DOT_PIXEL Dot_Pixel, DOT_STYLE Dot_Style)
 {
     if (Xpoint > Paint.Width || Ypoint > Paint.Height) {
-        Debug("Paint_DrawPoint Input exceeds the normal display range\r\n");
+        //Debug("Paint_DrawPoint Input exceeds the normal display range\r\n");
 				printf("Xpoint = %d , Paint.Width = %d  \r\n ",Xpoint,Paint.Width);
 				printf("Ypoint = %d , Paint.Height = %d  \r\n ",Ypoint,Paint.Height);
         return;
@@ -353,7 +353,7 @@ void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
 {
     if (Xstart > Paint.Width || Ystart > Paint.Height ||
         Xend > Paint.Width || Yend > Paint.Height) {
-        Debug("Paint_DrawLine Input exceeds the normal display range\r\n");
+        //Debug("Paint_DrawLine Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -374,7 +374,7 @@ void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
         Dotted_Len++;
         //Painted dotted line, 2 point is really virtual
         if (Line_Style == LINE_STYLE_DOTTED && Dotted_Len % 3 == 0) {
-            //Debug("LINE_DOTTED\r\n");
+            ////Debug("LINE_DOTTED\r\n");
             Paint_DrawPoint(Xpoint, Ypoint, IMAGE_BACKGROUND, Line_width, DOT_STYLE_DFT);
             Dotted_Len = 0;
         } else {
@@ -411,7 +411,7 @@ void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
 {
     if (Xstart > Paint.Width || Ystart > Paint.Height ||
         Xend > Paint.Width || Yend > Paint.Height) {
-        Debug("Input exceeds the normal display range\r\n");
+        //Debug("Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -443,7 +443,7 @@ void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius,
                       UWORD Color, DOT_PIXEL Line_width, DRAW_FILL Draw_Fill)
 {
     if (X_Center > Paint.Width || Y_Center >= Paint.Height) {
-        Debug("Paint_DrawCircle Input exceeds the normal display range\r\n");
+        //Debug("Paint_DrawCircle Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -509,42 +509,57 @@ parameter:
     Color_Background : Select the background color
 ******************************************************************************/
 void Paint_DrawChar(UWORD Xpoint, UWORD Ypoint, const char Acsii_Char,
-                    sFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
+                   sFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
 {
     UWORD Page, Column;
 
     if (Xpoint > Paint.Width || Ypoint > Paint.Height) {
-        Debug("Paint_DrawChar Input exceeds the normal display range\r\n");
         return;
     }
 
-    uint32_t Char_Offset = (Acsii_Char - ' ') * Font->Height * (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
+    // Get the specific width of the character
+    uint8_t char_index = Acsii_Char - ' ';
+    uint8_t char_width = Font->Widths ? Font->Widths[char_index] : Font->Width;
+
+    // Compute the offset while taking into account variable widths
+    uint32_t Char_Offset = 0;
+
+    // If there is an array of widths, compute the offset this way:
+    if (Font->Widths) {
+        // Compute the offset depending on widths of each previous character
+        for (int i = 0; i < char_index; i++) {
+            uint8_t prev_width = Font->Widths[i];
+            uint8_t bytes_per_row = prev_width / 8 + (prev_width % 8 ? 1 : 0);
+            Char_Offset += bytes_per_row * Font->Height;
+        }
+    } else {
+        // Standard method with fixed width
+        Char_Offset = char_index * Font->Height * (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
+    }
+
     const unsigned char *ptr = &Font->table[Char_Offset];
 
-    for (Page = 0; Page < Font->Height; Page ++ ) {
-        for (Column = 0; Column < Font->Width; Column ++ ) {
-
-            //To determine whether the font background color and screen background color is consistent
-            if (FONT_BACKGROUND == Color_Background) { //this process is to speed up the scan
+    for (Page = 0; Page < Font->Height; Page++) {
+        for (Column = 0; Column < char_width; Column++) {
+        	// Determine if the background color of the font and the screen background color are coherent
+            if (FONT_BACKGROUND == Color_Background) {
                 if (*ptr & (0x80 >> (Column % 8)))
                     Paint_SetPixel(Xpoint + Column, Ypoint + Page, Color_Foreground);
-                    // Paint_DrawPoint(Xpoint + Column, Ypoint + Page, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
             } else {
                 if (*ptr & (0x80 >> (Column % 8))) {
                     Paint_SetPixel(Xpoint + Column, Ypoint + Page, Color_Foreground);
-                    // Paint_DrawPoint(Xpoint + Column, Ypoint + Page, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
                 } else {
                     Paint_SetPixel(Xpoint + Column, Ypoint + Page, Color_Background);
-                    // Paint_DrawPoint(Xpoint + Column, Ypoint + Page, Color_Background, DOT_PIXEL_DFT, DOT_STYLE_DFT);
                 }
             }
-            //One pixel is 8 bits
+            // One pixel = 8 bits
             if (Column % 8 == 7)
                 ptr++;
-        }// Write a line
-        if (Font->Width % 8 != 0)
+        }
+        // Next line
+        if (char_width % 8 != 0)
             ptr++;
-    }// Write all
+    }
 }
 
 /******************************************************************************
@@ -557,36 +572,40 @@ parameter:
     Color_Foreground : Select the foreground color
     Color_Background : Select the background color
 ******************************************************************************/
-void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
-                         sFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
+void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char* pString,
+                        sFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
 {
     UWORD Xpoint = Xstart;
     UWORD Ypoint = Ystart;
 
     if (Xstart > Paint.Width || Ystart > Paint.Height) {
-        Debug("Paint_DrawString_EN Input exceeds the normal display range\r\n");
         return;
     }
 
-    while (* pString != '\0') {
-        //if X direction filled , reposition to(Xstart,Ypoint),Ypoint is Y direction plus the Height of the character
-        if ((Xpoint + Font->Width ) > Paint.Width ) {
+    while (*pString != '\0') {
+    	// Get the width of the processed character
+        uint8_t char_index = *pString - ' ';
+        uint8_t char_width = Font->Widths ? Font->Widths[char_index] : Font->Width;
+
+        // Verify if we hit EOL
+        if ((Xpoint + char_width) > Paint.Width) {
             Xpoint = Xstart;
             Ypoint += Font->Height;
         }
 
-        // If the Y direction is full, reposition to(Xstart, Ystart)
-        if ((Ypoint  + Font->Height ) > Paint.Height ) {
+        // Verify if we hit bottom of the screen
+        if ((Ypoint + Font->Height) > Paint.Height) {
             Xpoint = Xstart;
             Ypoint = Ystart;
         }
-        Paint_DrawChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
 
-        //The next character of the address
-        pString ++;
+        Paint_DrawChar(Xpoint, Ypoint, *pString, Font, Color_Background, Color_Foreground);
 
-        //The next word of the abscissa increases the font of the broadband
-        Xpoint += Font->Width;
+        // Next character
+        pString++;
+
+        // Move Xpoint depending on the width of the character
+        Xpoint += char_width;
     }
 }
 
@@ -707,7 +726,7 @@ void Paint_DrawNum(UWORD Xpoint, UWORD Ypoint, int32_t Nummber,
     uint8_t *pStr = Str_Array;
 
     if (Xpoint > Paint.Width || Ypoint > Paint.Height) {
-        Debug("Paint_DisNum Input exceeds the normal display range\r\n");
+        //Debug("Paint_DisNum Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -751,7 +770,7 @@ void Paint_DrawNumDecimals(UWORD Xpoint, UWORD Ypoint, double Nummber,
 	float decimals;
 	uint8_t i;
     if (Xpoint > Paint.Width || Ypoint > Paint.Height) {
-        Debug("Paint_DisNum Input exceeds the normal display range\r\n");
+        //Debug("Paint_DisNum Input exceeds the normal display range\r\n");
         return;
     }
 
