@@ -86,6 +86,7 @@ extern sFONT Font16;
 extern sFONT Font12;
 extern sFONT Font8;
 
+extern sFONT PixeloidSans24;
 extern sFONT PixeloidSans22;
 extern sFONT PixeloidSans20;
 extern sFONT PixeloidSans18;

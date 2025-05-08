@@ -282,6 +282,29 @@ void EPD_1IN54_V2_Clear(void)
     EPD_1IN54_V2_TurnOnDisplay();
 }
 
+void EPD_1IN54_V2_Clear_Black(void)
+{
+    UWORD Width, Height;
+    Width = (EPD_1IN54_V2_WIDTH % 8 == 0)? (EPD_1IN54_V2_WIDTH / 8 ): (EPD_1IN54_V2_WIDTH / 8 + 1);
+    Height = EPD_1IN54_V2_HEIGHT;
+
+    EPD_1IN54_V2_SendCommand(0x24);
+    for (UWORD j = 0; j < Height; j++) {
+        for (UWORD i = 0; i < Width; i++) {
+            EPD_1IN54_V2_SendData(0x00); // 0x00 pour noir (au lieu de 0xFF pour blanc)
+        }
+    }
+
+    EPD_1IN54_V2_SendCommand(0x26);
+    for (UWORD j = 0; j < Height; j++) {
+        for (UWORD i = 0; i < Width; i++) {
+            EPD_1IN54_V2_SendData(0x00); // 0x00 pour noir (au lieu de 0xFF pour blanc)
+        }
+    }
+
+    EPD_1IN54_V2_TurnOnDisplay();
+}
+
 /******************************************************************************
 function :	Sends the image buffer in RAM to e-Paper and displays
 parameter:

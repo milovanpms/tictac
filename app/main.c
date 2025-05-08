@@ -19,9 +19,11 @@
 #include "stm32g4_adc.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 // Epaper header
 #include "./epaper/epaper.h"
+#include "./epaper/epaper_displays.h"
 
 // Heartbeat header
 #include "./heartbeat/heartbeat.h"
@@ -57,12 +59,35 @@ int main(void)
     BSP_GPIO_pin_config(LED_GREEN_GPIO, LED_GREEN_PIN, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_HIGH, GPIO_NO_AF);
 
     // Initialise le SPI
-    SPI_Init();
+    EPD_SPI_Init();
+
     // Initialise le module e-paper
     DEV_Module_Init();
-    // Lance la démo du module e-paper
-    //EPD_Demo();
-    EPD_Demo_Text();
+    //EPD_Init();
+    EPD_Init_Partial();
+
+    //EPD_Display_MenuPrincipal();
+
+    // Affiche l'image (le texte, les formes, tout ce qu'on veut) sur l'écran
+    //EPD_1IN54_V2_Display(BlackImage);
+
+    EPD_DisplayBaseImage();
+
+    // Attendre un peu (simulation de delay)
+    HAL_Delay(500);
+
+    // Rafraîchissements partiels
+    EPD_PartialUpdate();
+
+    // Attendre un peu puis mise en veille
+    HAL_Delay(500);
+
+    // Met en veille profonde l'écran après affichage
+    EPD_1IN54_V2_Sleep();
+
+    // Libére la mémoire
+    free(BlackImage);
+    BlackImage = NULL;
 
     while (1)
     {
