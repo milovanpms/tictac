@@ -20,6 +20,25 @@
 #define LED_GREEN_PIN 		GPIO_PIN_8
 #define LED_GREEN_GPIO 		GPIOB
 
+#define BTN_GAUCHE_PIN	 		GPIO_PIN_12
+#define BTN_GAUCHE_GPIO 		GPIOA
+
+#define BTN_CENTRAL_PIN 		GPIO_PIN_11
+#define BTN_CENTRAL_GPIO 		GPIOA
+
+#define BTN_DROIT_PIN 		GPIO_PIN_5
+#define BTN_DROIT_GPIO 		GPIOB
+
+typedef enum {
+    GAUCHE,
+    CENTRAL,
+	DROIT,
+	RIEN
+} Bouton_t;
+
+extern Bouton_t boutonPresse;
+extern Bouton_t detecter_bouton();
+
 #define UART2_ON_PA3_PA2
 #define UART1_ON_PA10_PA9
 

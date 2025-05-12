@@ -19,7 +19,43 @@
 #include "epaper.h"
 #include "epaper_bitmaps.h"
 
+#include "config.h"
+
+// Définition des états
+typedef enum {
+	MAIN,
+	POULS,
+	PAS,
+	NFC,
+	PARAMETRES
+} State_t;
+
+static State_t currentState = MAIN;
+
+void EPD_StateMachine(void) {
+    switch (currentState) {
+    case MAIN:
+        EPD_Display_MenuPrincipal();
+        break;
+    case POULS:
+        currentState = MAIN;
+        break;
+    case PAS:
+    	EPD_PartialUpdate();
+        break;
+    case NFC:
+        currentState = MAIN;
+        break;
+    case PARAMETRES:
+        currentState = MAIN;
+        break;
+	}
+}
+
 void EPD_Display_MenuPrincipal(void) {
+	#define NOMBRE_ETATS 4
+	int etatActuel = 1;
+
     //////////////////
     // AFFICHAGE: Menu principal
     Paint_DrawBitMap_Paste(menuBox, 21, 21, 71, 71, false); // Ne pas bouger les cadres
@@ -37,8 +73,86 @@ void EPD_Display_MenuPrincipal(void) {
     Paint_DrawBitMap_Paste(menuBox, 21+71+16, 21+71+16, 71, 71, false); // Ne pas bouger les cadres
     Paint_DrawBitMap_Paste(settings, 21+(71/2)/2+1+87, 21+(71/2)/2+1+87, 36, 36, false);
     Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+(71/2)-1+87+43, 5, 5, false);
+
+	EPD_1IN54_V2_DisplayPart(BlackImage);
     //
     //////////////////
+
+    do {
+    	do {
+    		boutonPresse = detecter_bouton();
+    		HAL_Delay(50);
+    	}
+    	while (boutonPresse == RIEN);
+    	switch(boutonPresse) {
+    	case GAUCHE:
+    	    etatActuel--;
+
+    	    // Si on passe en dessous de 1, on revient à l'état maximum (4)
+    	    if (etatActuel < 1) {
+    	        etatActuel = NOMBRE_ETATS;
+    	        break;
+    	    } else {
+    	    	break;
+    	    }
+    	case DROIT:
+    	    etatActuel++;
+
+    	    // Si on passe au dessus de 4, on revient à l'état minimum (1)
+    	    if (etatActuel > NOMBRE_ETATS) {
+    	        etatActuel = 1;
+    	        break;
+    	    } else {
+    	    	break;
+    	    }
+    	case CENTRAL:
+    		switch(etatActuel) {
+    		case 1:
+    			currentState = POULS;
+    			break;
+    		case 2:
+    			currentState = PAS;
+    			break;
+    		case 3:
+    			currentState = NFC;
+    			break;
+    		case 4:
+    			currentState = PARAMETRES;
+    			break;
+    		}
+    		break;
+    	}
+
+    	switch(etatActuel) {
+    	case 1:
+    	    Paint_DrawBitMap_Paste(filledDot, 21+(71/2)-1, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1, 21+(71/2)-1+87+43, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+(71/2)-1+87+43, 5, 5, false);
+    	    break;
+    	case 2:
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(filledDot, 21+(71/2)-1+87, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1, 21+(71/2)-1+87+43, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+(71/2)-1+87+43, 5, 5, false);
+    	    break;
+    	case 3:
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(filledDot, 21+(71/2)-1, 21+(71/2)-1+87+43, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+(71/2)-1+87+43, 5, 5, false);
+    	    break;
+    	case 4:
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1+87, 21+71+5, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(emptyDot, 21+(71/2)-1, 21+(71/2)-1+87+43, 5, 5, false);
+    	    Paint_DrawBitMap_Paste(filledDot, 21+(71/2)-1+87, 21+(71/2)-1+87+43, 5, 5, false);
+    	    break;
+    	}
+    	EPD_1IN54_V2_DisplayPart(BlackImage);
+
+    }
+    while(boutonPresse != CENTRAL);
 }
 
 void EPD_Display_MenuRF(void) {
@@ -133,6 +247,9 @@ void EPD_DisplayBaseImage(void) {
 }
 
 void EPD_PartialUpdate(void) {
+    Paint_DrawRectangle(0, 0, Paint.Width - 1, Paint.Height - 1, BLACK, DOT_PIXEL_1X1, DRAW_FILL_FULL);
+    EPD_1IN54_V2_DisplayPart(BlackImage);
+
     Paint_DrawBitMap_Paste(leftArrow, 9, 155, 33, 33, false);
     Paint_DrawBitMap_Paste(rightArrow, 158, 155, 33, 33, false);
     Paint_DrawBitMap_Paste(montagne, 33-3, 32, 45, 45, false);

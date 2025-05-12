@@ -18,4 +18,6 @@ void EPD_Display_HistoriquePas(void);
 void EPD_DisplayBaseImage(void);
 void EPD_PartialUpdate(void);
 
+void EPD_StateMachine(void);
+
 #endif /* EPAPER_EPAPER_DISPLAYS_H_ */
