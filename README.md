@@ -12,7 +12,7 @@ Tictac is built around an e-ink display, a PPG heart rate sensor, a 6-axis accel
   <img src="https://img.shields.io/badge/language-C-lightgrey"/>
   <img src="https://img.shields.io/badge/PCB-Altium-A5915F"/>
   <img src="https://img.shields.io/badge/CAD-Fusion-F7941D"/>
-  <img src="https://img.shields.io/badge/signal_processing-MATLAB-0076A8"/>
+  <img src="https://img.shields.io/badge/ASP-MATLAB-0076A8"/>
 </p>
 
 <h1 align="center"></h1>
