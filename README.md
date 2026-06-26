@@ -28,6 +28,7 @@ Tictac is built around an e-ink display, a PPG heart rate sensor, a 6-axis accel
 ### Find your happiness:
 - ⚙️ [Hardware Architecture](./docs/architecture.md): Component list, pin mapping and wiring
 - 🛠️ [Firmware](./docs/firmware.md): STM32G4, state machines, code architecture
+- 📶 [Connectivity](./docs/connectivity.md): Bluetooth usage and handling
 - 💓 [Heart Rate Sensor](./docs/heartrate.md): PPG acquisition, bandpass filtering and BPM calculation
 - 🚶 [Step Counter](./docs/stepcounter.md): Accelerometer-based step detection and distance estimation
 - 👤 [Human-Machine Interface](./docs/hmi.md): E-ink display, rotary encoder and menu navigation
