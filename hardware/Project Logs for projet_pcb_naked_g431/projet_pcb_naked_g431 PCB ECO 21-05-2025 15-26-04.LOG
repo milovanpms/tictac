@@ -1,0 +1,8 @@
+Added Component: Designator=BRst(BOUTON_POUSSE_PLAT_6x6)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Type"; Value = "B_POUSS_MINI_T"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=RST Pin=BRst-1
+Added Pin To Net: NetName=GND Pin=BRst-2
+Added Pin To Net: NetName=GND Pin=SMA13-2
+Change Net Name : Old Net Name=PA12_bouton_UP New Net Name=PA12_bouton_DOWN
+Added Member To Class: ClassName=projet_pcb_naked_g431 Member=Component BRst BOUTON_POUSSOIR_MINIATURE_TRAVERSANT

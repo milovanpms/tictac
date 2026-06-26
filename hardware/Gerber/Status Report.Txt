@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [projet_pcb_naked_g431.PCBDOC]
+   Generated File[projet_pcb_naked_g431-Plated.TXT]
+   Generated File[projet_pcb_naked_g431.LDP]
+   Generated File[projet_pcb_naked_g431.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 14:33:07 On 11/06/2025

@@ -1,0 +1,5 @@
+Removed Member From Class: ClassName=projet_pcb_naked_g431 Member=J_5Vp
+Change Net Name : Old Net Name=PA6_transmeteur_NFC-SS New Net Name=PA6_transmetteur_NFC-SS
+Change Net Name : Old Net Name=PA9_transmeteur_NFC-RST New Net Name=PA9_transmetteur_NFC-RST
+Change Net Name : Old Net Name=PA10_transmeteur_NFC-SPI-MISO New Net Name=PA10_transmetteur_NFC-SPI-MISO
+Added Member To Class: ClassName=projet_pcb_naked_g431 Member=Component MPU6050

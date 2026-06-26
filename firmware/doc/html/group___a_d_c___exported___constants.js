@@ -1,0 +1,27 @@
+var group___a_d_c___exported___constants =
+[
+    [ "ADC Error Code", "group___a_d_c___error___code.html", "group___a_d_c___error___code" ],
+    [ "ADC common - Clock source", "group___a_d_c___h_a_l___e_c___c_o_m_m_o_n___c_l_o_c_k___s_o_u_r_c_e.html", "group___a_d_c___h_a_l___e_c___c_o_m_m_o_n___c_l_o_c_k___s_o_u_r_c_e" ],
+    [ "ADC instance - Resolution", "group___a_d_c___h_a_l___e_c___r_e_s_o_l_u_t_i_o_n.html", "group___a_d_c___h_a_l___e_c___r_e_s_o_l_u_t_i_o_n" ],
+    [ "ADC conversion data alignment", "group___a_d_c___h_a_l___e_c___d_a_t_a___a_l_i_g_n.html", "group___a_d_c___h_a_l___e_c___d_a_t_a___a_l_i_g_n" ],
+    [ "ADC sequencer scan mode", "group___a_d_c___scan__mode.html", "group___a_d_c___scan__mode" ],
+    [ "ADC group regular trigger source", "group___a_d_c__regular__external__trigger__source.html", "group___a_d_c__regular__external__trigger__source" ],
+    [ "ADC group regular trigger edge (when external trigger is selected)", "group___a_d_c__regular__external__trigger__edge.html", "group___a_d_c__regular__external__trigger__edge" ],
+    [ "ADC group regular sampling mode", "group___a_d_c__regular__sampling__mode.html", "group___a_d_c__regular__sampling__mode" ],
+    [ "ADC sequencer end of unitary conversion or sequence conversions", "group___a_d_c___e_o_c_selection.html", "group___a_d_c___e_o_c_selection" ],
+    [ "ADC group regular - Overrun behavior on conversion data", "group___a_d_c___h_a_l___e_c___r_e_g___o_v_r___d_a_t_a___b_e_h_a_v_i_o_r.html", "group___a_d_c___h_a_l___e_c___r_e_g___o_v_r___d_a_t_a___b_e_h_a_v_i_o_r" ],
+    [ "ADC group regular - Sequencer ranks", "group___a_d_c___h_a_l___e_c___r_e_g___s_e_q___r_a_n_k_s.html", "group___a_d_c___h_a_l___e_c___r_e_g___s_e_q___r_a_n_k_s" ],
+    [ "Channel - Sampling time", "group___a_d_c___h_a_l___e_c___c_h_a_n_n_e_l___s_a_m_p_l_i_n_g_t_i_m_e.html", "group___a_d_c___h_a_l___e_c___c_h_a_n_n_e_l___s_a_m_p_l_i_n_g_t_i_m_e" ],
+    [ "ADC instance - Channel number", "group___a_d_c___h_a_l___e_c___c_h_a_n_n_e_l.html", "group___a_d_c___h_a_l___e_c___c_h_a_n_n_e_l" ],
+    [ "Analog watchdog - ADC analog watchdog (AWD) number", "group___a_d_c___h_a_l___e_c___a_w_d___n_u_m_b_e_r.html", "group___a_d_c___h_a_l___e_c___a_w_d___n_u_m_b_e_r" ],
+    [ "ADC analog watchdog (AWD) filtering configuration", "group___a_d_c__analog__watchdog__filtering__config.html", "group___a_d_c__analog__watchdog__filtering__config" ],
+    [ "ADC analog watchdog (AWD) mode", "group___a_d_c__analog__watchdog__mode.html", "group___a_d_c__analog__watchdog__mode" ],
+    [ "Oversampling - Ratio", "group___a_d_c___h_a_l___e_c___o_v_s___r_a_t_i_o.html", "group___a_d_c___h_a_l___e_c___o_v_s___r_a_t_i_o" ],
+    [ "Oversampling - Data shift", "group___a_d_c___h_a_l___e_c___o_v_s___s_h_i_f_t.html", "group___a_d_c___h_a_l___e_c___o_v_s___s_h_i_f_t" ],
+    [ "Oversampling - Discontinuous mode", "group___a_d_c___h_a_l___e_c___o_v_s___d_i_s_c_o_n_t___m_o_d_e.html", "group___a_d_c___h_a_l___e_c___o_v_s___d_i_s_c_o_n_t___m_o_d_e" ],
+    [ "Oversampling - Oversampling scope for ADC group regular", "group___a_d_c___h_a_l___e_c___o_v_s___s_c_o_p_e___r_e_g.html", "group___a_d_c___h_a_l___e_c___o_v_s___s_c_o_p_e___r_e_g" ],
+    [ "ADC Event type", "group___a_d_c___event__type.html", "group___a_d_c___event__type" ],
+    [ "ADC interrupts definition", "group___a_d_c__interrupts__definition.html", "group___a_d_c__interrupts__definition" ],
+    [ "ADC flags definition", "group___a_d_c__flags__definition.html", "group___a_d_c__flags__definition" ],
+    [ "ADC_AWD_EVENT", "group___a_d_c___exported___constants.html#ga2d1d545ea1bfecba7a7081be6ef2cb93", null ]
+];

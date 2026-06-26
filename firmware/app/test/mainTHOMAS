@@ -1,0 +1,124 @@
+/**
+ *******************************************************************************
+ * @file    main.c
+ * @author  jjo & Waveshare
+ * @date    Mar 29, 2024
+ * @brief   Fichier principal avec intégration de l'écran e-paper
+ *******************************************************************************
+ */
+
+// https://www.waveshare.com/wiki/1.54inch_e-Paper_Module_(B)_Manual#Working_With_STM32
+
+#include "config.h"
+#include "stm32g4_sys.h"
+
+#include "stm32g4_systick.h"
+#include "stm32g4_gpio.h"
+#include "stm32g4_uart.h"
+#include "stm32g4_utils.h"
+#include "stm32g4_adc.h"
+
+#include <stdbool.h>
+#include <math.h>
+#include <stdio.h>
+
+// Epaper header
+#include "./epaper/epaper.h"
+
+// timer header
+#include "stm32g4_timer.h"
+
+// mpu6050 header
+#include "./MPU6050/stm32g4_mpu6050.h"
+
+//implementation des variable pour le detecteur de pas
+MPU6050_t MPU6050_Data;
+volatile uint16_t pas_interupt = 0;
+
+
+void write_LED(bool b)
+{
+    HAL_GPIO_WritePin(LED_GREEN_GPIO, LED_GREEN_PIN, b);
+}
+
+
+bool char_received(uart_id_t uart_id)
+{
+    if (BSP_UART_data_ready(uart_id))
+    {
+        BSP_UART_get_next_byte(uart_id);
+        return true;
+    }
+    else
+        return false;
+}
+
+
+int main(void)
+{
+    HAL_Init();
+    BSP_GPIO_enable();
+    BSP_UART_init(UART2_ID, 115200);
+    BSP_SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
+
+    /* Initialise le MPU6050 */
+    if (MPU6050_Init(&MPU6050_Data, GPIOA, GPIO_PIN_0, MPU6050_Device_0, MPU6050_Accelerometer_8G, MPU6050_Gyroscope_2000s) != MPU6050_Result_Ok) {
+    	/*
+    	// Affiche error avec le debug_printf
+    	debug_printf("MPU6050 Error\n");
+    	*/
+
+    	// Affiche error avec l'UART
+    	printf("MPU6050 Error\n");
+    }
+
+    /* Initialise le timer4 */
+    timer_id_t timer_pas = TIMER4_ID;
+    uint32_t timeus = 30000;
+    BSP_TIMER_run_us(timer_pas, timeus, true);
+
+    /* Initialise le timer3 */
+    //timer_id_t timer_pas_bis = TIMER3_ID;
+    //BSP_TIMER_run_us(timer_pas_bis, timeus, true);
+
+
+
+    //BSP_ADC_init();
+
+    // Initialise la LED verte
+    ////BSP_GPIO_pin_config(LED_GREEN_GPIO, LED_GREEN_PIN, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_HIGH, GPIO_NO_AF);
+
+    // Initialise le SPI
+    //SPI_Init();
+    // Initialise le module e-paper
+    //DEV_Module_Init();
+    // Lance la démo du module e-paper
+    //EPD_Demo();
+
+    //MPU6050_recording(&MPU6050_Data);
+
+    //HW827_Init();
+    //HW827_Recording_Process_1ms();
+    //HW827_Recording_PrintCSV();
+
+
+    //printf("Nombre");
+    //uint16_t pas = calcule_pas(&MPU6050_Data);
+	//HAL_Delay(100);
+	//printf("Nombre de pas : %u\r\n", pas);
+
+
+	//uint16_t nb_battements;
+	//float bpm_moy;
+	//calcule_bpm(&nb_battements, &bpm_moy);
+	//printf("Battements detectes : %u\r\n", nb_battements);
+	//printf("BPM moyen : %.2f\r\n", bpm_moy);
+
+
+    while (1)
+    {
+    	printf("pas detectes : %u\r\n", pas_interupt);
+    	//HAL_Delay(1000);
+    }
+}
+

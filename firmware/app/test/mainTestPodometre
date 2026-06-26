@@ -1,0 +1,239 @@
+/*
+ * main.c
+ *
+ *  Created on: May 12, 2025
+ *      Author: Milovan
+ */
+
+// https://www.waveshare.com/wiki/1.54inch_e-Paper_Module_(B)_Manual#Working_With_STM32
+
+#include "config.h"
+#include "stm32g4_sys.h"
+
+#include "stm32g4_systick.h"
+#include "stm32g4_gpio.h"
+#include "stm32g4_uart.h"
+#include "stm32g4_utils.h"
+#include "stm32g4_adc.h"
+#include "stm32g4_rtc.h"
+#include "stm32g4_extit.h"
+#include "./HC-05/stm32g4_hc05.h"
+#include "./MPU6050/stm32g4_mpu6050.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#include "./epaper/epaper.h"
+#include "./epaper/epaper_displays.h"
+#include "./heartbeat/heartbeat.h"
+#include "./rtc/rtc.h"
+#include "./bluetooth/bluetooth_msg_process.h"
+#include "./boutons/bouton_central.h"
+#include "./boutons/encodeur_rotatif.h"
+#include "./heartbeat/heartbeat.h"
+#include "./podometre/podometre.h"
+
+#include "stm32g4_timer.h"
+
+// Déclaration des variables pour le podomètre
+MPU6050_t MPU6050_Data;
+volatile uint16_t pas_interupt = 0;
+
+volatile int lastEncoded = 0;
+
+void write_LED(bool b)
+{
+    HAL_GPIO_WritePin(LED_GREEN_GPIO, LED_GREEN_PIN, b);
+}
+
+bool char_received(uart_id_t uart_id)
+{
+    if (BSP_UART_data_ready(uart_id))
+    {
+        BSP_UART_get_next_byte(uart_id);
+        return true;
+    }
+    else
+        return false;
+}
+
+// Définition des états
+typedef enum {
+    INIT,
+    IDLE,
+    DISPLAY,
+    FREE,
+    SLEEP,
+    MENU,
+    DETECTION
+} State_t;
+
+State_t currentState = INIT;
+bool inIdleMode = true;
+
+void check_and_update_time_display() {
+    static RTC_TimeTypeDef previousTime = {0};
+    static RTC_DateTypeDef previousDate = {0};
+    static bool first_run = true;
+
+    if (!inIdleMode) return; // Ne pas mettre à jour si pas en mode IDLE
+
+    RTC_TimeTypeDef currentTime;
+    RTC_DateTypeDef currentDate;
+    BSP_RTC_get_time_and_date(&currentTime, &currentDate);
+
+    if (first_run ||
+        currentTime.Minutes != previousTime.Minutes ||
+        currentTime.Hours != previousTime.Hours ||
+        currentDate.Date != previousDate.Date) {
+
+        EPD_Display_Idle(pas_interupt);
+
+        previousTime = currentTime;
+        previousDate = currentDate;
+        first_run = false;
+    }
+}
+
+void stateMachine() {
+    static RTC_TimeTypeDef previousTime = {0};
+    static RTC_DateTypeDef previousDate = {0};
+    static bool first_run = true;
+
+    switch (currentState) {
+        case INIT:
+            currentState = IDLE;
+
+            // Initialisation de la couche d'abstraction matérielle
+            HAL_Init();
+
+            // Initialisation GPIO
+            BSP_GPIO_enable();
+
+            // Initialisation de la communication UART2 (115200 bauds)
+            BSP_UART_init(UART2_ID, 115200);
+            BSP_SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
+
+            // Initialisation du MPU6050
+            if (MPU6050_Init(&MPU6050_Data, GPIOA, GPIO_PIN_0, MPU6050_Device_0,
+                             MPU6050_Accelerometer_8G, MPU6050_Gyroscope_2000s) != MPU6050_Result_Ok) {
+                printf("MPU6050 Init Error\n");
+                while(1); // Bloquer en cas d'erreur
+            } else {
+                printf("MPU6050 Init OK\n");
+            }
+
+            // Initialisation du Timer 4 pour la détection de pas (30 ms comme dans mainthomas.c)
+            BSP_TIMER_run_us(TIMER4_ID, 30000, true);
+
+            // Configuration de la LED verte
+            BSP_GPIO_pin_config(LED_GREEN_GPIO, LED_GREEN_PIN, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_HIGH, GPIO_NO_AF);
+
+            // Initialisation de la communication UART1 (115200 bauds) (Bluetooth)
+            BSP_UART_init(UART1_ID, 115200);
+
+            // Initialisation ADC
+            BSP_ADC_init();
+
+            RTC_Init();
+
+            // Configuration des boutons
+            BSP_GPIO_pin_config(BTN_GAUCHE_GPIO, BTN_GAUCHE_PIN, GPIO_MODE_IT_RISING_FALLING, GPIO_PULLUP, GPIO_SPEED_FREQ_LOW, GPIO_NO_AF);
+            BSP_GPIO_pin_config(BTN_DROIT_GPIO, BTN_DROIT_PIN, GPIO_MODE_IT_RISING_FALLING, GPIO_PULLUP, GPIO_SPEED_FREQ_LOW, GPIO_NO_AF);
+            BSP_GPIO_pin_config(BTN_CENTRAL_GPIO, BTN_CENTRAL_PIN, GPIO_MODE_INPUT, GPIO_PULLDOWN, GPIO_SPEED_FREQ_LOW, GPIO_NO_AF);
+
+            // Enregistrer le callback sur les broches PA12 (12) et PB5 (5)
+            BSP_EXTIT_set_callback(encoder_callback, 12, true);  // PA12
+            BSP_EXTIT_set_callback(encoder_callback, 5, true);   // PB5
+
+            lastEncoded = readEncoder();  // Initialiser l'état
+
+            //HW827_Init();
+
+            // Initialisation du SPI de l'écran
+            EPD_SPI_Init();
+
+            // Initialisation de l'écran
+            DEV_Module_Init();
+
+            // Initialisation de l'écran en mode complet
+            ////EPD_Init();
+
+            // Initialisation de l'écran en mode partiel
+            EPD_Init_Partial(); // Cette ligne fait déconner le podomètre
+
+            // Affiche le contenu de base (rien)
+            EPD_DisplayBaseImage();
+
+            inIdleMode = true;
+
+            break;
+
+        case IDLE:
+            currentState = DETECTION;
+
+            EPD_Display_Reset();
+            EPD_Display_Idle(pas_interupt);
+
+            // Marquer que nous sommes en mode IDLE
+            inIdleMode = true;
+
+            // Mémoriser l'heure actuelle pour éviter de rafraîchir inutilement
+            BSP_RTC_get_time_and_date(&previousTime, &previousDate);
+            first_run = false;
+
+            break;
+
+        /*
+        case DISPLAY:
+            currentState = FREE;
+
+            EPD_PartialUpdate();
+            break;
+
+        case MENU:
+            // Quitter le mode IDLE lorsqu'on entre dans un menu
+            inIdleMode = false;
+            if (EPD_StateMachine() == 1) {
+                currentState = IDLE;
+                printf("Sortie de la machine à état d'EPD\n");
+            }
+            break;
+
+        case FREE:
+            currentState = INIT;
+            // Libère la mémoire
+            free(BlackImage);
+            BlackImage = NULL;
+            break;
+
+        case SLEEP:
+            currentState = INIT;
+            // Met en veille profonde l'écran (après un affichage par exemple)
+            // WIP: Je ne sais pas comment on sort de veille profonde
+            EPD_1IN54_V2_Sleep();
+            break;
+        */
+
+        case DETECTION:
+            printf("pas detectes : %u\r\n", pas_interupt);
+
+            handle_uart_reception();
+            check_and_update_time_display();
+            if (read_central_button()) {
+                BSP_UART_puts(UART2_ID, "CENTRAL PRESSED\r\n", strlen("CENTRAL PRESSED\r\n"));
+                currentState = MENU;
+                printf("Retour\n");
+            }
+
+            break;
+    }
+}
+
+int main(void) {
+    while (1) {
+        stateMachine();
+    }
+    return 0;
+}

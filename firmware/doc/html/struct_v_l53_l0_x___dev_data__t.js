@@ -1,0 +1,28 @@
+var struct_v_l53_l0_x___dev_data__t =
+[
+    [ "CurrentParameters", "struct_v_l53_l0_x___dev_data__t.html#a5165e904d3d83cc5b1c627c22b2d9b7b", null ],
+    [ "DeviceSpecificParameters", "struct_v_l53_l0_x___dev_data__t.html#a2958c42156a1f0c6081caaf0a231dcd3", null ],
+    [ "DmaxCalRangeMilliMeter", "struct_v_l53_l0_x___dev_data__t.html#aa23928d6da598ede2c32e23514680432", null ],
+    [ "DmaxCalSignalRateRtnMegaCps", "struct_v_l53_l0_x___dev_data__t.html#acc523058668406d0efec1cb654473bce", null ],
+    [ "DMaxData", "struct_v_l53_l0_x___dev_data__t.html#a7075976fb7b4bc9cf865d3bbd11aac84", null ],
+    [ "LastHistogramMeasure", "struct_v_l53_l0_x___dev_data__t.html#a5480d3f90facb42407756b39a310633b", null ],
+    [ "LastRangeMeasure", "struct_v_l53_l0_x___dev_data__t.html#a7799036fe969dfe83c1ae6eff8be674c", null ],
+    [ "LastSignalRefMcps", "struct_v_l53_l0_x___dev_data__t.html#a1ca3757e4f75a3e400146160d3edb676", null ],
+    [ "LinearityCorrectiveGain", "struct_v_l53_l0_x___dev_data__t.html#aad3c92084a625a195121424a5e7c4557", null ],
+    [ "PalState", "struct_v_l53_l0_x___dev_data__t.html#ac645fe0de060ffad87dc4d755608dcfb", null ],
+    [ "Part2PartOffsetAdjustmentNVMMicroMeter", "struct_v_l53_l0_x___dev_data__t.html#a62ed46d7b523a053369994438b0ba927", null ],
+    [ "Part2PartOffsetNVMMicroMeter", "struct_v_l53_l0_x___dev_data__t.html#a6e6356707b05d7d4f29a42ece3c46acd", null ],
+    [ "PowerMode", "struct_v_l53_l0_x___dev_data__t.html#a7e59ee158d10fa60e1a21b0087ae57af", null ],
+    [ "pTuningSettingsPointer", "struct_v_l53_l0_x___dev_data__t.html#a4907a0662829dbae0c43e988f447485e", null ],
+    [ "RangeFractionalEnable", "struct_v_l53_l0_x___dev_data__t.html#a923dab84ef194caa23e0e9d8963957ea", null ],
+    [ "SequenceConfig", "struct_v_l53_l0_x___dev_data__t.html#ab2eaa24e3028f6cfe5a1820b4ec47deb", null ],
+    [ "SigmaEstEffAmbWidth", "struct_v_l53_l0_x___dev_data__t.html#aabf1fa2a3554e0fdb93565d596ef7d84", null ],
+    [ "SigmaEstEffPulseWidth", "struct_v_l53_l0_x___dev_data__t.html#a99bf2c24fc5eb1f25da7a06a4d63ac31", null ],
+    [ "SigmaEstimate", "struct_v_l53_l0_x___dev_data__t.html#a47b7d8644df0f8c8c8d17f60add0781e", null ],
+    [ "SigmaEstRefArray", "struct_v_l53_l0_x___dev_data__t.html#a1b77108fe67db5cf1b70b9c37c28be8b", null ],
+    [ "SignalEstimate", "struct_v_l53_l0_x___dev_data__t.html#ae72c8944126bef8b85f5355d13849830", null ],
+    [ "SpadData", "struct_v_l53_l0_x___dev_data__t.html#ab462fc34f22ec8f874a1e05680986ed3", null ],
+    [ "StopVariable", "struct_v_l53_l0_x___dev_data__t.html#abb5b10571b925d752f3d54162f8a34af", null ],
+    [ "targetRefRate", "struct_v_l53_l0_x___dev_data__t.html#ab5f5e93380153204163f411d8c5eb7d8", null ],
+    [ "UseInternalTuningSettings", "struct_v_l53_l0_x___dev_data__t.html#a3f805d6d0edeb0d288ea7cd9902af80f", null ]
+];
