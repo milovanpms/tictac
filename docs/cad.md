@@ -19,19 +19,17 @@ The jaw is the most mechanically complex sub-assembly. Its job is to press the u
 > trades the complexity of active force control for a passive spring mechanism calibrated
 > to a typical fingertip.
 
-
-
 The assembly is made up of five distinct parts described below.
 
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao1.png" height=400/>
+</p> 
 
 ### Lower Jaw
  
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao3.png" height=400/>
+</p> 
  
 The lower jaw is the fixed base of the assembly. It is built around a rectangular main body that integrates several purpose-shaped inserts:
 
@@ -48,21 +46,19 @@ Chamfers and fillets are applied to all exposed edges for print quality and comf
 
 ### Upper Jaw
 
-![]()
+<p align="center">
+  <img src="../assets/images/cao/cao2.png" height=400/>
+</p> 
 
-> [!NOTE]
-> Screenshots todo!
- 
 The upper jaw mirrors the lower jaw's base volume and carries the same set of inserts; spring seat, TPU pad seats, and two cylindrical sockets that receive the lower jaw's hinge bosses, plus a central cylindrical hub that wraps around the pivot axis.
  
 A cable groove identical to the lower jaw's is present, extended all the way through the hub, so that wires can exit toward the watch body once the jaw is assembled and closed around a finger.
 
 ### Pivot Axis
  
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao4.png" height=400/>
+</p> 
  
 The pivot axis is a stepped cylinder designed with **0.5 mm** clearance (matching the printer's calibrated tolerance). Key design decisions:
  
@@ -74,10 +70,10 @@ The pivot axis is a stepped cylinder designed with **0.5 mm** clearance (matchin
   
 ### TPU Comfort Pads
 
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao5.png" height=400 width=705/>
+  <img src="../assets/images/cao/cao6.png" height=400/>
+</p> 
  
 Four distinct TPU pads (two upper, two lower) press-fit into their trapezoidal seats with 0.5 mm of play. TPU was chosen because it is flexible enough to conform to the finger's shape and can be printed on the same printer as the rigid PLA parts, just with a different filament loaded. The trapezoidal cross-section prevents the pads from pulling out under the spring's closing force.
  
@@ -85,10 +81,9 @@ A clearance slot on the lower jaw's pad seats allows the HW827 sensor module to 
 
 ### 3D-Printed Spring
 
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao14.png" height=400/>
+</p> 
  
 The spring is a thick serpentine structure (1 mm wall thickness) printed in PLA.
  
@@ -105,26 +100,23 @@ The encoder used for menu navigation is a salvaged mouse scroll-wheel encoder; a
  
 The result is a single user-facing control that both rotates and clicks, even though those two functions come from two completely independent components. See [Architecture documentation](./architecture.md#component-details) and [Firmware documentation](./firmware.md#rotary-encoder-integration) for how the firmware reads each one.
 
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao7.png" height=400/>
+</p> 
 
 ### Lower Shell
  
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao8.png" height=400/>
+</p> 
  
 The lower shell holds both components in their correct relative positions. Two slots on opposite sides of the frame grip the mouse encoder's steel retaining tabs, fixing it horizontally and flush with the shell surface. Behind the encoder, a rectangular recess locates the push-button: four small pillars at the bottom of the recess align with the button's four legs for precise, repeatable placement.
 
 ### Upper Shell
  
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao9.png" height=400/>
+</p> 
  
 The upper shell constrains the encoder laterally but leaves it free to travel vertically. This vertical freedom is intentional: when the user presses the knob down, the encoder body slides inside the housing and its shaft end bears against the push-button behind it, actuating it. The shell depth is sized so the button can reach both its unpressed and fully-depressed positions without the encoder bottoming out on the shell walls.
  
@@ -132,10 +124,9 @@ A central cylindrical bore passes the encoder's shaft through to the outside.
  
 ### Knob
  
-![]()
-
-> [!NOTE]
-> Screenshots todo!
+<p align="center">
+  <img src="../assets/images/cao/cao10.png" height=400/>
+</p> 
  
 The knob is a three-part body in a single printed piece:
  
@@ -153,12 +144,18 @@ before the knob felt smooth to use.
  
 The screen enclosure houses the **epd1in54_V2** e-paper display (`200×200 px`, `1.54″`) and serves as the primary watch body that the user sees. See [Architecture documentation](./architecture.md#component-details) for display specs.
  
-![](../assets/images/cao.png)
+<p align="center">
+  <img src="../assets/images/cao.png" height=400/>
+</p> 
  
 The enclosure is split into two parts along a horizontal parting line.
 
 ### Main Body
- 
+
+<p align="center">
+  <img src="../assets/images/cao/cao12.png" height=400/>
+</p>
+
 The main body is a silver open frame designed around the display's footprint. It includes:
  
 - A rectangular window exposing the active display area.
@@ -169,6 +166,10 @@ The main body is a silver open frame designed around the display's footprint. It
 All external edges carry fillets to soften the form. Four screw holes are present on the outer face, used to bolt the e-paper display module securely inside the enclosure.
 
 ### Cover
+
+<p align="center">
+  <img src="../assets/images/cao/cao13.png" height=400/>
+</p>
 
 The cover is a solid black parallelepiped with fully filleted edges. It has no clip, latch, or retention feature of any kind; a known design shortcoming. In practice it was held against the main body with poster tack. 
 
