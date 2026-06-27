@@ -57,6 +57,7 @@ Like most projects, Tictac went through two distinct hardware stages:
 | Debug console            | `RX`                | `PA3`            | UART2               |
 | **epd1in54_V2**          | `CS`                | `PA4`            | SPI1                |
 | **epd1in54_V2**          | `SCK`               | `PA5`            | SPI1                |
+| SPI1 MISO (unused by e-paper) | –              | `PA6`            | SPI1                |
 | **epd1in54_V2**          | `MOSI`              | `PA7`            | SPI1                |
 | **epd1in54_V2**          | `DC`                | `PA8`            | GPIO                |
 | **HC-05** (Bluetooth)    | `TX`                | `PA9`            | UART1               |
@@ -68,7 +69,7 @@ Like most projects, Tictac went through two distinct hardware stages:
 | **epd1in54_V2**          | `RST`               | `PB3`            | GPIO (output)       |
 | Rotary encoder            | Phase B ("right")   | `PB5`            | GPIO / EXTI (pull-up) |
 | **MPU6050**               | `SDA`               | `PB7`            | I2C1                |
- 
+
 > [!NOTE]
 > The e-paper SPI bus has no MISO line. The `epd1in54_V2` only ever receives data (frame buffer
 > and commands); it never talks back to the MCU over SPI. `BUSY` is the only signal flowing the
