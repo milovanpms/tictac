@@ -3,7 +3,7 @@
 ## A pulse's journey through the system
  
 ```
-HW827 (analog PPG) ➜ ADC1_IN1 @ ~71.43 Hz, 1 sample / 14 ms ➜ raw buffer (740 samples, ~10.36 s) ➜ float conversion ➜ band-pass filter (moving-average low-pass + subtraction high-pass) ➜ adaptive threshold (0.1 × std) ➜ peak detection (≥ 0.4 s apart) ➜ BPM averaging
+HW827 (analog PPG) ➜ ADC1_IN1 @ ~71.43 Hz, 1 sample / 14 ms ➜ Raw buffer (740 samples, ~10.36 s) ➜ Float conversion ➜ Band-pass filter (moving-average low-pass + subtraction high-pass) ➜ Adaptive threshold (0.1 × std) ➜ Peak detection (≥ 0.4 s apart) ➜ BPM averaging
 ```
  
 The whole pipeline lives in `heartbeat.c`, and unlike the accelerometer pipeline (see [Step Counter documentation](./stepcounter.md)), it runs as a single **blocking** sequence rather than a background interrupt: the user presses the heart-rate menu entry, the watch freezes on a loading screen for about ten seconds while it samples and crunches the signal, then shows a BPM value.
