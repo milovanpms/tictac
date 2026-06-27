@@ -24,6 +24,11 @@ Tictac is built around an e-ink display, a PPG heart rate sensor, a 6-axis accel
 - **Why** : We wanted a project that was both technically ambitious and tangible; something you can actually wear and demo.
 - **Context** : Embedded systems student project, two-person team.
 
+## Showcase
+
+![](./assets/images/photos/presentation.png)
+
+
 ## Documentation
 ### Find your happiness:
 - ⚙️ [Hardware Architecture](./docs/architecture.md): Component list, pin mapping and wiring
