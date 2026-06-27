@@ -37,7 +37,7 @@ Tictac is built around an e-ink display, a PPG heart rate sensor, a 6-axis accel
 - 💓 [Heart-Rate Measurement](./docs/heartrate.md): PPG acquisition, bandpass filtering and BPM calculation
 - 👟 [Step Counter](./docs/stepcounter.md): Accelerometer-based step detection and distance estimation
 - 👤 [Human-Machine Interface](./docs/hmi.md): E-ink display, rotary encoder and menu navigation
-- 🔌 [Electronics](./docs/electronics.md): Altium schematic, PCB routing, JLCPCB validation
+- 🔌 ~~[Electronics](./docs/electronics.md): Altium schematic, PCB routing, JLCPCB validation~~
 - 📐 [Mechanical Design](./docs/cad.md): 3D-printed enclosure, pulse sensor jaw, dial and screen housing
 
 ## Repository Structure
