@@ -1,4 +1,4 @@
-<img align="left" style="width:260px" src="https://cdn.discordapp.com/attachments/1492625020097396847/1519782294879994046/logo.jpg?ex=6a3ecf0f&is=6a3d7d8f&hm=ebad5733aa805b4fd20bff8094d669d0e048886bc26e0f0b1c07126f39ca0748&" width="288px">
+<img align="left" style="width:260px" src="./assets/images/logo.jpg" width="288px">
 
 **Tictac is a smartwatch prototype built on STM32G4, featuring heart rate monitoring, step counting and Bluetooth time sync on an e-ink display.**
 
